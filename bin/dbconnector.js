@@ -5,7 +5,7 @@
 var mysql = require('mysql');
 
 var dbcon = mysql.createConnection({
-    host: "104.197.245.224",
+    host: "127.0.0.1",
     user: "eng",
     password: "3237a594e58baced6bd677a9431b7cda",
     database: "engmem"
