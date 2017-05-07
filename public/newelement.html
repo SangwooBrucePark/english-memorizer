@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #main_tb {
+            width: 100%;
+        }
+
+        textarea {
+            width: 100%;
+            height: 100%;
+            font-size: 30px;
+        }
+    </style>
+    <script src="./javascripts/jquery-3.2.1.js"></script>
+    <script>
+        String.prototype.replaceAll = function (search, replacement) {
+            var target = this;
+            return target.replace(new RegExp(search, 'g'), replacement);
+        };
+
+        $(window).ready(function () {
+            $('#main_tb').height($(window).height() - 60);
+        });
+
+        $(window).resize(function () {
+            $('#main_tb').height($(window).height() - 60);
+            $('#main_tb').height($(window).height() - 60);
+        });
+    </script>
+</head>
+<body>
+<table style="font-size: 20px; width: 100%; height: 20px; border: 1px dotted #000000; text-align: center; margin-bottom: 10px;">
+    <tr>
+        <td><a href="groups.html">그룹목록</a></td>
+        <td><a href="elements.html">문제목록</a></td>
+        <td><a href="newelement.html">새 문제 입력</a></td>
+        <td><a href="newgroup.html">새 그룹 만들기</a></td>
+    </tr>
+</table>
+<table id="main_tb">
+    <tr>
+        <td style="height: 20px; font-size: 40px;">영어</td>
+    </tr>
+    <tr>
+        <td>
+            <textarea id="text_eng"></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td style="height: 20px; font-size: 40px;">한국어</td>
+    </tr>
+    <tr>
+        <td>
+            <textarea id="text_kor"></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td style="height: 50px; text-align: center;">
+            <button id="add" style="font-size: 30px;">추가</button>
+        </td>
+    </tr>
+</table>
+<script>
+    $('#add').click(function () {
+        // var text_eng_conv = String($('#text_eng').val()).replaceAll('\n', '<br>').replaceAll('\'', '%27');
+        // var text_kor_conv = String($('#text_kor').val()).replaceAll('\n', '<br>').replaceAll('\'', '%27');
+        var text_eng_conv = fixedEncodeURIComponent($('#text_eng').val());
+        var text_kor_conv = fixedEncodeURIComponent($('#text_kor').val());
+        $.post('/newelement', {
+            "text_eng": text_eng_conv,
+            "text_kor": text_kor_conv
+        }, function (data, status) {
+            if (data.result === 'ok') {
+                alert('ok');
+                $('#text_eng').val('');
+                $('#text_kor').val('');
+            }
+        });
+    });
+
+    function fixedEncodeURIComponent(str) {
+        return encodeURIComponent(str).replace(/[!'()*]/g, function (c) {
+            return '%' + c.charCodeAt(0).toString(16);
+        });
+    }
+</script>
+</body>
+</html>

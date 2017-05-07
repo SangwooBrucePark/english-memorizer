@@ -1,0 +1,10 @@
+bslack_mysql:
+  image: mysql
+  container_name: engmemdb
+  environment:
+    MYSQL_DATABASE: engmem
+    MYSQL_ROOT_PASSWORD: 2d20265a7919d04ccf297805f5092262
+    MYSQL_USER: eng
+    MYSQL_PASSWORD: 3237a594e58baced6bd677a9431b7cda
+  ports:
+    - 3306:3306

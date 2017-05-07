@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./javascripts/jquery-3.2.1.js"></script>
+    <script>
+        $(window).ready(function () {
+            $('#tb').height($(window).height() - 60);
+        });
+
+        $(window).resize(function () {
+            $('#tb').height($(window).height() - 60);
+        });
+    </script>
+</head>
+<body>
+<table style="font-size: 20px; width: 100%; height: 20px; border: 1px dotted #000000; text-align: center; margin-bottom: 10px;">
+    <tr>
+        <td><a href="groups.html">그룹목록</a></td>
+        <td><a href="elements.html">문제목록</a></td>
+        <td><a href="newelement.html">새 문제 입력</a></td>
+        <td><a href="newgroup.html">새 그룹 만들기</a></td>
+    </tr>
+</table>
+<p style="font-size: 40px; text-align: center;">
+    범위 설정 :
+    <input type="number" style="font-size: 40px; width: 100px;" id="start"> ~ <input type="number" style="font-size: 40px; width: 100px;" id="end">
+    <button style="font-size: 30px;" id="create_range">생성</button><br>
+    임의 추출 :
+    <input type="number" style="font-size: 40px; width: 100px;" id="numofq">
+    <button style="font-size: 30px;" id="create_number">생성</button>
+</p>
+</body>
+<script>
+    $('#create_range').click(function () {
+        var start = $('#start').val();
+        var end = $('#end').val();
+        $.get('/newgroup?condition=range&start=' + start + '&end=' + end, function (data, status) {
+            console.log(data);
+            if (data.result === 'ok') {
+                alert('ok');
+            } else {
+                alert('error');
+            }
+        });
+    });
+
+    $('#create_number').click(function () {
+        var numofq = $('#numofq').val();
+        console.log()
+        $.get('/newgroup?condition=random&numofq=' + numofq, function (data, status) {
+            console.log(data);
+            if (data.result === 'ok') {
+                alert('ok');
+            } else {
+                alert('error');
+            }
+        });
+    });
+</script>
+</html>

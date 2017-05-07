@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=0, user-scalable=no">
+    <style>
+        #main_tb {
+            border-spacing: 0px;
+            border-collapse: separate;
+            width: 100%;
+        }
+
+        #main_tb td {
+            border: 1px dotted #808080;
+            margin: 0px;
+            padding: 5px;
+            font-size: 20px;
+            text-align: center;
+        }
+    </style>
+    <script src="./javascripts/jquery-3.2.1.js"></script>
+    <script>
+        function del_group(gid) {
+            $.get("/delgroup?gid=" + gid, function (data, status) {
+                console.log(data);
+                if (data.result === 'ok') {
+                    location.reload();
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            $.get("/groups", function (data, status) {
+                console.log(data);
+                data.forEach(function (p1, p2, p3) {
+                    $("#view").append("<tr>");
+                    $("#view").append("<td><a href='/q.html?gid=" + p1.gid + "'>" + p1.gid + "</a></td>");
+                    $("#view").append("<td>" + p1.cnt + "</td>");
+                    $("#view").append("<td><a href='#' onclick='del_group(\"" + p1.gid + "\")'>삭제</a></td>");
+                    $("#view").append("</tr>");
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<table style="font-size: 20px; width: 100%; height: 20px; border: 1px dotted #000000; text-align: center; margin-bottom: 10px;">
+    <tr>
+        <td><a href="groups.html">그룹목록</a></td>
+        <td><a href="elements.html">문제목록</a></td>
+        <td><a href="newelement.html">새 문제 입력</a></td>
+        <td><a href="newgroup.html">새 그룹 만들기</a></td>
+    </tr>
+</table>
+<table id="main_tb">
+    <thead style="text-align: center;">
+    <tr>
+        <td>문제그룹</td>
+        <td>갯수</td>
+        <td></td>
+    </tr>
+    </thead>
+    <tbody id="view"></tbody>
+</table>
+</body>
+</html>

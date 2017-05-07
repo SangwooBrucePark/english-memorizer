@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        table {
+            border-spacing: 0px;
+            border-collapse: separate;
+            width: 100%;
+        }
+
+        td {
+            margin: 0px;
+            padding: 3px;
+        }
+
+        #view {
+            font-size: 30px;
+        }
+    </style>
+    <script src="./javascripts/jquery-3.2.1.js"></script>
+    <script>
+        function getUrlVar(key) {
+            var result = new RegExp(key + "=([^&]*)", "i").exec(window.location.search);
+            return result && unescape(result[1]) || "";
+        }
+
+        var gid = getUrlVar('gid');
+        var seq = 0;
+
+        var text_kor = '';
+        var text_eng = '';
+        var questions = {};
+
+        function load_elements() {
+            $('#cur_page').val(seq + 1);
+
+            $.get('/question?gid=' + gid, function (data, status) {
+                console.log(data);
+                if (data.result === 'ok') {
+                    questions = data.questions;
+                    $('#all_pages').append(questions.length);
+                    $('#view').text(decodeURIComponent(questions[0].text_kor));
+                    text_kor = decodeURIComponent(questions[0].text_kor);
+                    text_eng = decodeURIComponent(questions[0].text_eng);
+                    kor_view = false;
+                } else {
+                    alert('no question');
+                }
+            });
+        }
+
+        $(window).ready(function () {
+            load_elements();
+            $('#tb').height($(window).height() - 60);
+        });
+
+        $(window).resize(function () {
+            $('#tb').height($(window).height() - 60);
+        });
+    </script>
+</head>
+<body style="text-align: center;">
+<table style="font-size: 20px; width: 100%; height: 20px; border: 1px dotted #000000; text-align: center; margin-bottom: 10px;">
+    <tr>
+        <td><a href="groups.html">그룹목록</a></td>
+        <td><a href="elements.html">문제목록</a></td>
+        <td><a href="newelement.html">새 문제 입력</a></td>
+        <td><a href="newgroup.html">새 그룹 만들기</a></td>
+    </tr>
+</table>
+<table id="tb">
+    <thead style="text-align: center;">
+    <tr>
+        <td colspan="3" style="text-align: center; font-size: 40px;">
+            <input type="number" style="height: 40px; font-size: 40px; width: 100px; text-align: right;"
+                   id="cur_page">/<span id="all_pages"
+                                        style="font-size: 40px;"></span>
+            <button style="font-size: 30px;" id="move">이동</button>
+        </td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td colspan="3">
+            <p id="view"></p>
+        </td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr>
+        <td style="width: 150px;">
+            <button style="font-size: 30px;" id="prev">이전</button>
+        </td>
+        <td></td>
+        <td style="width: 150px;">
+            <button style="font-size: 30px;" id="next">다음</button>
+        </td>
+    </tr>
+    </tfoot>
+</table>
+<script>
+    $('#move').click(function () {
+        console.log('move');
+        var selected_seq = parseInt($('#cur_page').val()) - 1;
+        if (0 <= selected_seq && selected_seq < questions.length) {
+            seq = selected_seq;
+            $('#view').text(decodeURIComponent(questions[selected_seq].text_kor));
+            text_kor = decodeURIComponent(questions[selected_seq].text_kor);
+            text_eng = decodeURIComponent(questions[selected_seq].text_eng);
+            kor_view = false;
+        } else {
+            alert('This page number is not available.');
+        }
+    });
+
+    $('#prev').click(function () {
+        console.log('prev');
+        seq--;
+        console.log('seq ' + seq);
+        if (seq === -1) {
+            alert('This is the first question.');
+            seq++;
+        } else {
+            $('#cur_page').val(seq + 1);
+            $('#view').text(decodeURIComponent(questions[seq].text_kor));
+            text_kor = decodeURIComponent(questions[seq].text_kor);
+            text_eng = decodeURIComponent(questions[seq].text_eng);
+            kor_view = false;
+        }
+    });
+
+    $('#next').click(function () {
+        console.log('next');
+        seq++;
+        console.log('seq ' + seq);
+        if (seq === questions.length) {
+            alert('This is the last question.');
+            seq--;
+        } else {
+            $('#cur_page').val(seq + 1);
+            $('#view').text(decodeURIComponent(questions[seq].text_kor));
+            text_kor = decodeURIComponent(questions[seq].text_kor);
+            text_eng = decodeURIComponent(questions[seq].text_eng);
+            kor_view = false;
+        }
+    });
+
+    var kor_view = false;
+
+    $('#view').click(function () {
+        if (kor_view) {
+            $('#view').text(text_kor);
+            kor_view = false;
+        } else {
+            $('#view').text(text_eng);
+            kor_view = true;
+        }
+    });
+</script>
+</body>
+</html>
