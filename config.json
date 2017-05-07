@@ -1,0 +1,7 @@
+{
+  "GCLOUD_PROJECT": "english-memorizer",
+  "DATA_BACKEND": "cloudsql",
+  "MYSQL_USER": "eng",
+  "MYSQL_PASSWORD": "3237a594e58baced6bd677a9431b7cda",
+  "INSTANCE_CONNECTION_NAME": "english-memorizer:us-central1:english-memorizer-db"
+}

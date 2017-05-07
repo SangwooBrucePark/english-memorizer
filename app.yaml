@@ -1,2 +1,4 @@
 env: flex
 runtime: nodejs
+beta_settings:
+  cloud_sql_instances: english-memorizer:us-central1:english-memorizer-db
