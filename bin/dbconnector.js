@@ -3,9 +3,14 @@
  */
 
 var mysql = require('mysql');
+var google = require('googleapis');
+
+google.auth.getApplicationDefault(function (err, authClient) {
+    if (err) return cb(err);
+});
 
 var dbcon = mysql.createConnection({
-    host: '127.0.0.1',
+    host: 'localhost',
     user: 'eng',
     password: '3237a594e58baced6bd677a9431b7cda',
     database: 'engmem',
