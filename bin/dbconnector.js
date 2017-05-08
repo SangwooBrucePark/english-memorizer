@@ -3,18 +3,13 @@
  */
 
 var mysql = require('mysql');
-var google = require('googleapis');
-
-google.auth.getApplicationDefault(function (err, authClient) {
-    if (err) return cb(err);
-});
 
 var dbcon = mysql.createConnection({
     host: 'localhost',
     user: 'eng',
     password: '3237a594e58baced6bd677a9431b7cda',
     database: 'engmem',
-    socketPath: '/cloudsql/english-memorizer:us-central1:english-memorizer-db'
+    // socketPath: '/cloudsql/english-memorizer:us-central1:english-memorizer-db'
 });
 
 dbcon.connect(function (err) {
