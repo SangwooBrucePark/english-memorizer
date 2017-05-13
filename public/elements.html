@@ -40,6 +40,7 @@
                     //$("#element_view").append("<td class='date'>" + p1.updated_at + "</td>");
                     //$("#element_view").append("<td class='date'>" + p1.created_at + "</td>");
                     $("#element_view").append("<td style='text-align: center; white-space: nowrap;'><a href='#' onclick='del_element(\"" + p1.id + "\")'>삭제</a></td>");
+                    $("#element_view").append("<td style='text-align: center; white-space: nowrap;'><a href='/preupdateelement?id=" + p1.id + "'>수정</a></td>");
                     $("#element_view").append("</tr>");
                 });
             });
@@ -65,6 +66,7 @@
         <td>ID</td>
         <td>English</td>
         <td>한국어</td>
+        <td></td>
         <td></td>
     </tr>
     </thead>

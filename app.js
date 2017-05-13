@@ -14,6 +14,8 @@ var question = require('./routes/question');
 var elements = require('./routes/elements');
 var delgroup = require('./routes/delgroup');
 var delelement = require('./routes/delelement');
+var preupdateelement = require('./routes/preupdateelement');
+var updateelement = require('./routes/updateelement');
 
 var app = express();
 
@@ -38,6 +40,8 @@ app.use('/question', question);
 app.use('/elements', elements);
 app.use('/delgroup', delgroup);
 app.use('/delelement', delelement);
+app.use('/preupdateelement', preupdateelement);
+app.use('/updateelement', updateelement);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
